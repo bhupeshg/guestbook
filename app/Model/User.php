@@ -196,4 +196,20 @@ class User extends AppModel
         }
     }
     //Comparing confirm fields with fields Ends
+
+    //Checks if user is active or not
+    public function isUserActive($userDetails){
+        if(isset($userDetails['User']['status']) && $userDetails['User']['status']==1){
+            return true;
+        }
+        return false;
+    }
+
+    //Checks if user is deleted
+    public function isUserDeleted($userDetails){
+        if(isset($userDetails['User']['is_deleted']) && $userDetails['User']['is_deleted']==1){
+            return true;
+        }
+        return false;
+    }
 }

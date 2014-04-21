@@ -54,17 +54,10 @@ $lawyersStatus = '';
 
         <ul class="submenu">
             <li>
-                <a href="elements.html">
-                    <i class="icon-double-angle-right"></i>
-                    Add
-                </a>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'admins','action'=>'addLawyer'), array('escape' => false))?>
             </li>
-
             <li>
-                <a href="elements.html">
-                    <i class="icon-double-angle-right"></i>
-                    Manage
-                </a>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'admins','action'=>'manageLawyers'), array('escape' => false))?>
             </li>
         </ul>
     </li>

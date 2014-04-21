@@ -18,7 +18,7 @@ class UserTransaction extends AppModel {
     public function checkDiscountValues() {
         //pr($this->data['UserTransaction']['any_discount']); die;
         if(isset($this->data['UserTransaction']['any_discount']) && $this->data['UserTransaction']['any_discount']=='y'){
-            if((isset($this->data['UserTransaction']['discount_type']) && !empty($this->data['UserTransaction']['discount_type'])) && (isset($this->data['UserTransaction']['discount_value']) && !empty($this->data['UserTransaction']['discount_value']))){
+            if(isset($this->data['UserTransaction']['coupon_id']) && !empty($this->data['UserTransaction']['coupon_id'])){
                 return true;
             }
             return false;

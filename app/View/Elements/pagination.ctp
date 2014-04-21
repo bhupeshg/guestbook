@@ -1,5 +1,5 @@
-<div class="dataTables_paginate paging_bootstrap pagination">
-    <ul>
+<div class="dataTables_paginate paging_bootstrap" style="line-height: 10px;">
+    <ul class="pagination">
         <?php
         /*echo $this->Paginator->prev('<i class="icon-double-angle-left"></i>Prev', array(), null, array('class' => 'prev disabled','escape'=>false));
         echo $this->Paginator->numbers(array('separator' => false));
@@ -14,3 +14,4 @@
         ?>
     </ul>
 </div>
+<?php echo $this->Js->writeBuffer();?>

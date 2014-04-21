@@ -384,14 +384,3 @@ Cache::config('_cake_model_', array(
 	'duration' => $duration
 ));
 include('constants.php');
-
-/** start constants here*/
-Configure::write('DB_DATE_FORMAT', 'Y-m-d h:i:s');
-Configure::write('DISCOUNT_TYPES', array('1'=>'Fixed','2'=>'Percentage'));
-Configure::write('USER_STATUS', array(1=>'Active',2=>'Inactive',3=>'Deleted'));
-Configure::write('VIEW_DATE_FORMAT', 'd/m/y');
-Configure::write('VIEW_DATE_TIME_FORMAT', 'm/d/y h:i:s A');
-define('NORECORD','No records found');
-define('SITE_NAME','Guestbook');
-define('LIMIT',1);
-Configure::write('PAYMENT_TYPES', array('Cheque'=>'Cheque','Gateway'=>'Gateway','Transfer'=>'Transfer'));

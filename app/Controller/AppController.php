@@ -76,14 +76,30 @@ class AppController extends Controller
         return false;
     }
 
-    public function writeUserSession($data)
+    public function writeUserSession($userDetails)
     {
-        if (isset($data) && !empty($data)) {
-            $this->Session->write('UserInfo.uid', $data['User']['id']);
-            $this->Session->write('UserInfo.email', $data['User']['email']);
-            $this->Session->write('UserInfo.first_name', $data['User']['first_name']);
-            $this->Session->write('UserInfo.last_name', $data['User']['last_name']);
-            $this->Session->write('UserInfo.user_type', $data['User']['user_type']);
+        if (isset($userDetails) && !empty($userDetails)) {
+            $userType = $userDetails['User']['user_type'];
+            switch ($userType) {
+                case '1':
+                    $this->Session->write('isSuperAdmin', 1);
+                    break;
+                case '2':
+                    $this->Session->write('isLawyer', 1);
+                    break;
+                case '3':
+                    $this->Session->write('isStaff', 1);
+                    break;
+                default:
+                    break;
+            }
+
+            $this->Session->write('UserInfo.uid', $userDetails['User']['id']);
+            $this->Session->write('UserInfo.email', $userDetails['User']['email']);
+            $this->Session->write('UserInfo.first_name', $userDetails['User']['first_name']);
+            $this->Session->write('UserInfo.last_name', $userDetails['User']['last_name']);
+            $this->Session->write('UserInfo.user_type', $userDetails['User']['user_type']);
+            $this->Session->write('UserInfo.plan_expiry_date', $userDetails['User']['plan_expiry_date']);
         }
     }
 

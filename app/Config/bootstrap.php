@@ -105,3 +105,27 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+/** start constants here*/
+//Messages for Actions performed Starts
+Configure::write('INACTIVE_USER', '<span class="setFlash error">This user is Inactive right now</span>');
+Configure::write('DELETED_USER', '<span class="setFlash error">This user is deleted.</span>');
+Configure::write('UNAUTHORIZED_ACCESS', '<span class="setFlash error">Unauthorized Access</span>');
+Configure::write('USER_NOT_FOUND', '<span class="setFlash error">The user could not be found. Please fill the correct information</span>');
+Configure::write('LAWYER_ADDED', '<span class="setFlash success">Lawyer added successfully.</span>');
+define('LAWYER_UPDATED','<span class="setFlash success">Lawyer updated successfully.</span>');
+define('LAWYER_DELETED','<span class="setFlash success">Lawyer deleted successfully.</span>');
+define('ERROR_OCCURRED','<span class="setFlash error">An error occurred, Please try again later.</span>');
+//'<span class="setFlash error">Unauthorized Access</span>'
+//Messages for Actions performed Ends
+Configure::write('DB_DATE_FORMAT', 'Y-m-d h:i:s');
+Configure::write('DISCOUNT_TYPES', array('1'=>'Fixed','2'=>'Percentage'));
+Configure::write('USER_STATUS', array(1=>'Active',2=>'Inactive',3=>'Deleted'));
+Configure::write('VIEW_DATE_FORMAT', 'd/m/y');
+Configure::write('VIEW_DATE_TIME_FORMAT', 'm/d/y h:i:s A');
+Configure::write('PAYMENT_TYPES', array('Cheque'=>'Cheque','Gateway'=>'Gateway','Transfer'=>'Transfer'));
+Configure::write('USER_TYPES', array(1=>'Super',2=>'Lawyer',3=>'Staff',4=>'Admin Staff',5=>'Front End User'));
+define('NO_RECORD','No records found');
+define('SITE_NAME','Guestbook');
+define('LIMIT',2);
+define('REQUIRED','<span class="red">*</span>');

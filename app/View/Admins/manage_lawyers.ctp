@@ -1,4 +1,12 @@
-<?php echo $this->Html->script('listing');?>
+<?php
+//echo $this->Html->script('jquery'); // Include jQuery library
+echo $this->Html->script('listing'); ?>
+<?php $this->Paginator->options(array(
+    'update' => '#content',
+    'evalScripts' => true,
+    'before' => $this->Js->get('#overlay_img')->effect('fadeIn', array('buffer' => false)),
+    'complete' => $this->Js->get('#overlay_img')->effect('fadeOut', array('buffer' => false)),
+)); ?>
 <div class="page-header position-relative">
     <h1>
         Lawyer Management
@@ -9,7 +17,22 @@
     </h1>
 </div><!-- /.page-header -->
 
-<?php echo $this->Form->create('User',array('url' => '/admins/manageLawyers','id'=>'userListForm','name'=>'userListForm')); ?>
+<?php 
+$data = $this->Js->get('#userListForm')->serializeForm(array('isForm' => true, 'inline' => true));
+$this->Js->get('#userListForm')->event(
+    'submit',
+    $this->Js->request(
+        array('action' => 'manageLawyers'),
+        array(
+            'update' => '#content',
+            'data' => $data,
+            'async' => true,
+            'dataExpression'=>true,
+            'method' => 'POST'
+        )
+    )
+);
+echo $this->Form->create('User',array('url' => '/admins/manageLawyers','id'=>'userListForm','name'=>'userListForm')); ?>
 <div class="row-fluid">
     <div class="span12">
         <div class="row-fluid">
@@ -19,13 +42,14 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <?php echo $this->Form->input('User.first_name', array('label' => false, 'div' => false, 'class' => 'input-medium search-query', 'placeholder' => 'First Name')); ?>
-                        <?php echo $this->Form->input('User.last_name', array('label' => false, 'div' => false, 'class' => 'input-medium search-query', 'placeholder' => 'Last Name')); ?>
+                        <?php echo $this->Form->input('User.first_name', array('label' => false, 'required' => false, 'div' => false, 'class' => 'input-medium search-query', 'placeholder' => 'First Name')); ?>
+                        <?php echo $this->Form->input('User.last_name', array('label' => false, 'required' => false, 'div' => false, 'class' => 'input-medium search-query', 'placeholder' => 'Last Name')); ?>
                         <?php echo $this->Form->input('User.email', array('label' => false, 'div' => false, 'class' => 'input-medium search-query', 'placeholder' => 'Email', 'required' => false)); ?>
                         <?php
                         echo $this->Form->button("<i class='icon-search icon-on-right bigger-110'></i>Search",
                             array("class"=>"btn btn-purple btn-small","escape"=>false,
-                                "type"=>"submit"));?>
+                                "type"=>"submit"));
+						echo $this->Js->writeBuffer(); ?>
                     </div>
                 </div>
             </div>
@@ -103,7 +127,8 @@
                     <?php echo date(Configure::read('VIEW_DATE_FORMAT'),strtotime($record['User']['modified']));?>
                 </td>
                 <td class="hidden-480 ">
-                    <span class="label label-warning">
+                    <?php $statusClass = ($record['User']['status']==1)?'label-success':'label-warning'; ?>
+                    <span class="label <?php echo $statusClass; ?>">
                         <?php $userStatuses = Configure::read('USER_STATUS');
                             echo $userStatuses[$record['User']['status']];
                         ?>
@@ -111,17 +136,12 @@
                 </td>
                 <td class=" ">
                     <div class="hidden-phone visible-desktop action-buttons">
-                        <a href="#" class="blue">
-                            <i class="icon-zoom-in bigger-130"></i>
-                        </a>
+						<?php echo $this->Html->link('<i class="icon-zoom-in bigger-130"></i>', array('controller'=>'users','action'=>'dashboard'), array('escape' => false, 'class' => 'blue'))?>
 
-                        <a href="#" class="green">
-                            <i class="icon-pencil bigger-130"></i>
-                        </a>
-
-                        <a href="#" class="red">
-                            <i class="icon-trash bigger-130"></i>
-                        </a>
+						<?php echo $this->Html->link('<i class="icon-pencil bigger-130"></i>', array('controller'=>'admins','action'=>'editLawyer',$record['User']['id']), array('escape' => false, 'class' => 'green'))?>
+						
+						<?php echo $this->Html->link('<i class="icon-trash bigger-130"></i>', array('controller'=>'admins','action'=>'deleteLawyer',$record['User']['id']), array('escape' => false, 'class' => 'red'),"Are you sure you want to delete this lawyer?")?>
+						
                     </div>
 
                     <div class="hidden-desktop visible-phone">
@@ -164,47 +184,43 @@
             } ?>
             <tFoot>
                 <tr role="row">
-                    <th role="columnheader" colspan="8">
+                    <th role="columnheader" style="border-right: none !important;">
                         <?php
                         $updateStatusOptions = array('Update Status','Activate','Deactivate','Delete');
                         echo $this->Form->input('User.status',array('id'=>'paging_limit','type' =>'select', 'options'=>$updateStatusOptions,'label'=>'','readonly'=>'','div'=>false,'label'=>false,'id'=>'status',"onchange"=>"updateRecords(this.value,'userListForm');")); ?>
                     </th>
+                    <th role="columnheader" colspan="8" style="border-left: none !important;">
+                        <?php if($this->params['paging']['User']['count']>LIMIT){?>
+                            <?php echo $this->Element('pagination');?>
+                        <?php } ?>
+                    </th>
                 </tr>
             </tFoot>
-
         <?php }else{
             ?>
                 <tr>
                     <td class="center" colspan="7">
                         <label>
-                            <span class="notify_message"><?php echo NORECORD;?></span>
+                            <span class="notify_message"><?php echo NO_RECORD;?></span>
                         </label>
                     </td>
                 </tr>
             <?php
         }?>
-
-
-
-
         </tbody>
         </table>
-
-        <div class="row-fluid">
-            <div class="span6">
-                <?php //if($this->params['paging']['User']['count']>LIMIT){?>
-                    <?php echo $this->Element('pagination');?>
-                <?php //} ?>
-                <!--<div class="dataTables_paginate paging_bootstrap pagination">
-                    <ul>
-                        <li class="prev disabled"><a href="#"><i class="icon-double-angle-left"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li class="next"><a href="#"><i class="icon-double-angle-right"></i></a></li>
-                    </ul>
-                </div>-->
+        <!--<div class="row-fluid">
+                <div class="span12">
+                    <div class="dataTables_paginate paging_bootstrap pagination">
+                        <ul>
+                            <li class="prev disabled"><a href="#"><i class="icon-double-angle-left"></i></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li class="next"><a href="#"><i class="icon-double-angle-right"></i></a></li>
+                        </ul>
+                    </div>
             </div>
-        </div>
+        </div>-->
         </div>
         </div>
 

@@ -9,7 +9,7 @@
         <a href="#" class="navbar-brand">
             <small>
                 <i class="icon-leaf"></i>
-                Ace Admin
+                <?php echo SITE_NAME; ?>
             </small>
         </a><!-- /.brand -->
     </div>

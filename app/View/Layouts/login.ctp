@@ -8,7 +8,7 @@
     <?php
     echo $this->Html->meta('icon');
 
-    echo $this->Html->css('bootstrapp.min');
+    echo $this->Html->css('bootstrap.min');
     echo $this->Html->css('font-awesome.min'); ?>
 
     <!--[if IE 7]>
@@ -25,6 +25,7 @@
     <?php echo $this->Html->css('ace-ie.min'); ?>
     <![endif]-->
 
+    <?php echo $this->Html->script('jquery.min');?>
     <?php
     echo $this->fetch('meta');
     echo $this->fetch('css');
@@ -48,7 +49,7 @@
     <div class="main-content">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
-                <div class="login-container">
+                <div class="login-container" id="login-container">
                     <?php echo $content_for_layout; ?>
                 </div>
             </div>
@@ -88,6 +89,6 @@
         jQuery('#' + id).addClass('visible');
     }
 </script>
-<?php echo $this->element('sql_dump'); ?>
+<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

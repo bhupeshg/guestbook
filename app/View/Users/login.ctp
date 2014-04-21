@@ -8,18 +8,12 @@
 </div>
 
 <div class="space-6"></div>
-
 <div class="position-relative">
-    <?php echo $this->Form->create("User", array("url" => array("controller" => "users", "action" => "login")));
-    /*echo $this->Form->create('User',array(
-        'type' => 'post',
-        'action' => 'userAction',
-        'onSubmit' => 'return false;'
-    ));*/
-    echo $this->Form->hidden("action", array("value" => "login"));
-    echo $this->Form->hidden("token", array("value" => $token));
-    ?>
     <div id="login-box" class="login-box visible widget-box no-border">
+        <?php echo $this->Form->create("User", array("url" => array("controller" => "users", "action" => "login")));
+        echo $this->Form->hidden("action", array("value" => "login"));
+        echo $this->Form->hidden("token", array("value" => $token));
+        ?>
         <div class="widget-body">
             <div class="widget-main">
                 <h4 class="header blue lighter bigger">
@@ -28,7 +22,9 @@
                 </h4>
 
                 <div class="space-6"></div>
-                <?php echo $this->Session->flash();?>
+                <div id="loginStatus">
+                    <?php echo $this->Session->flash();?>
+                </div>
                 <fieldset>
                     <label class="block clearfix">
                             <span class="block input-icon input-icon-right">
@@ -62,7 +58,7 @@
                         ));*/
                         echo $this->Form->button("<i class='icon-key'></i>Login",
                             array("class"=>"width-35 pull-right btn btn-sm btn-primary","escape"=>false,
-                                "type"=>"submit"));?>
+                                "type"=>"submit")); ?>
                     </div>
                     <!--<div id="sending" style="display: none; background-color: lightgreen;">Sending...</div>-->
                     <div class="space-4"></div>
@@ -77,38 +73,13 @@
             </div>
         </div>
         <!-- /widget-body -->
+        <?php echo $this->Form->end();?>
     </div>
-    <?php echo $this->Form->end();?>
     <!-- /login-box -->
     <div id="forgot-box" class="forgot-box widget-box no-border">
         <div class="widget-body">
-            <div class="widget-main">
-                <h4 class="header red lighter bigger">
-                    <i class="icon-key"></i>
-                    Retrieve Password
-                </h4>
-
-                <div class="space-6"></div>
-                <p>
-                    Enter your email and to receive instructions
-                </p>
-
-                <?php echo $this->Form->create("User", array("url" => array("controller" => "users", "action" => "login"))); ?>
-                    <fieldset>
-                        <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
-                                <?php
-                                echo $this->Form->hidden("action", array("value" => "forgot"));
-                                echo $this->Form->input("forgot_email", array("class" => "form-control","required" => "required","placeholder" => "Email","label"=>"Email"));?>
-                                <i class="icon-envelope"></i>
-                            </span>
-                        </label>
-
-                        <div class="clearfix">
-                            <?php echo $this->Form->button('<i class="icon-lightbulb"></i> Send Me!', array('type' => 'submit', 'class' => 'width-35 pull-right btn btn-sm btn-danger'), array('escape' => false)); ?>
-                        </div>
-                    </fieldset>
-                <?php echo $this->Form->end();?>
+            <div class="widget-main" id="forgotPasswordContainer">
+                <?php echo $this->element('Users/forgot_password');?>
             </div>
             <!-- /widget-main -->
 
