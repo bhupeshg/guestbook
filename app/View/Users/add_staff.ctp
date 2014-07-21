@@ -1,7 +1,7 @@
 <div class="page-content">
 	<div class="page-header">
 		<h1>
-			Lawyer Management
+			Staff Management
 			<small>
 				<i class="icon-double-angle-right"></i>
 				<?php echo $pageTitle; ?>
@@ -12,7 +12,7 @@
 <div class="row">
 <div class="col-xs-12">
 	<!-- PAGE CONTENT BEGINS -->
-	<?php echo $this->Form->create('User', array('url' => '/admins/addLawyer', 'class' => 'form-horizontal','name'=>'addLawyer', 'id'=>'addLawyer')); ?>
+	<?php echo $this->Form->create('User', array('action' => 'addStaff', 'class' => 'form-horizontal','name'=>'addLawyer', 'id'=>'addLawyer')); ?>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="form-field-name"> Name </label>
 		<div class="col-sm-9">
@@ -21,6 +21,15 @@
 		</div>
 	</div>
 
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Role </label>
+		<div class="col-sm-9">
+			<?php echo $this->Form->input('User.staff_role_id', array('options' => $listRoles, 'empty' => '--Select Role--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Role', "required" => "required")); ?>
+		</div>
+	</div>
+	
 	<div class="space-4"></div>
 
 	<div class="form-group">
@@ -114,64 +123,6 @@
 		<?php echo $this->Form->input('Profile.zip', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Zip')); ?>
 		</div>
 	</div>
-
-    <div class="hr hr-24"></div>
-
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Roles</label>
-        <div class="col-sm-9">
-
-        </div>
-    </div>
-
-	<div class="hr hr-24"></div>
-	
-	<div class="form-group">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Select Plan</label>
-		<div class="col-sm-9">
-			<?php echo $this->Form->input('UserTransaction.plan_id', array('options' => $listPlans, 'empty' => '--Select Plan--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Plan', "required" => "required")); ?>
-            &nbsp;<span id="planAmount"></span>
-		</div>
-	</div>
-	
-	<div class="form-group">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Any Discount</label>
-		<div class="col-sm-9 displayValueField radioGroupCnt">
-			<?php $options = array('y' => 'Yes', 'n' => 'No');
-			echo $this->Form->radio('UserTransaction.any_discount', $options, array('legend' => false,'default' => 'n','class' => 'anyDiscount', "required" => "required", "autocomplete" => "off")); ?>
-		</div>
-	</div>
-	
-	<div class="form-group" id="addDiscount" style="display: none;">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Select Coupon</label>
-		<div class="col-sm-9">
-			<?php echo $this->Form->input('UserTransaction.coupon_id', array('options' => $listCoupons, 'empty' => '--Select Coupon--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Plan', "required" => "required")); ?>
-			&nbsp;<span id="couponAmount"></span>
-		</div>
-	</div>
-	
-	<div class="form-group">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Total Amount</label>
-		<div class="col-sm-9 displayValueField" id="totalAmount">
-			$0.00
-		</div>
-	</div>
-	
-	<div class="form-group" id="addDiscount">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Mode of Payment</label>
-		<div class="col-sm-9">
-			<?php //echo $this->Form->input('UserTransaction.coupon_id', array('options' => $listCoupons, 'empty' => '--Select Coupon--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Plan', "required" => "required")); ?>
-			<?php echo $this->Form->input('UserTransaction.mode_of_payment', array('options' => Configure::read('PAYMENT_TYPES'), 'empty' => '--Payment Type--', 'label' => false, 'div' => false, 'class' => '', 'autocomplete' => 'off', 'data-placeholder' => 'Choose Discount Type')); ?>
-            <?php echo $this->Form->input('UserTransaction.transaction_id', array('label' => false, 'div' => false, 'class' => '', 'type' => 'text', 'placeholder' => 'Transaction ID')); ?>
-		</div>
-	</div>
-	
-	<div class="form-group" id="addDiscount">
-		<label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Mode of Payment</label>
-		<div class="col-sm-9">
-			<?php echo $this->Form->input('UserTransaction.notes', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5')); ?>
-		</div>
-	</div>
 	
 	<!--<div class="row">
 		<div class="col-sm-12">
@@ -217,84 +168,3 @@
 </div><!-- /.col -->
 </div><!-- /.row -->
 </div><!-- /.page-content -->
-<script type="text/javascript">
-    $(document).ready(function(){
-		showHideDiscount();
-		updateTotalPayment();
-        $('#UserTransactionCouponId').on('change', function(){
-            updateTotalPayment();
-        })
-
-        $('#UserTransactionPlanId').on('change', function(){
-            updateTotalPayment();
-        })
-
-        $('.anyDiscount').on('click', function(){
-            showHideDiscount();
-			updateTotalPayment();
-        })
-    });
-
-	function showHideDiscount(){
-		var anyDiscount = $(".anyDiscount:checked").val();
-		if(anyDiscount=='y'){
-			$('#addDiscount').show();
-		}else{
-			$('#UserTransactionCouponId').val('')
-			$('#addDiscount').hide();
-		}
-	}
-	
-    function updateTotalPayment(){
-        var planDetail = $('#UserTransactionPlanId').val();
-        var planValue = planDetail.split("_").pop();
-		var showPlanValue = '';
-		
-		var couponDetail = $('#UserTransactionCouponId').val();
-		var couponValue = couponDetail.split("_");
-		var showCouponValue = '';
-		
-        var showNetAmount = '0.00';
-        if(planValue!=''){
-			showPlanValue = '$'+planValue;
-            showNetAmount = planValue;
-            var discountType = '';
-            var discountValue = '';
-			if($(".anyDiscount:checked").val()=='y' && couponValue[1]!='' && couponValue[2]!=''){
-				discountType = couponValue[2];
-				discountValue = couponValue[1];
-				
-				if(discountType==2){
-					showCouponValue = discountValue+'%';
-				}else if(discountType==1){
-					showCouponValue = '$'+discountValue;
-				}
-			}
-			
-            if(discountType!='' && discountValue!=''){
-               if(discountType==1){
-                   showNetAmount = (parseFloat(planValue)-parseFloat(discountValue)).toFixed(1);
-               }else if(discountType==2){
-                   netDiscount = (parseFloat(discountValue)/parseInt(100)*parseFloat(planValue));
-                   showNetAmount = parseFloat(planValue)-parseFloat(netDiscount).toFixed(1);
-               }
-            }
-        }
-		$('#planAmount').html(showPlanValue);
-		$('#couponAmount').html(showCouponValue);
-        $('#totalAmount').html('$'+showNetAmount);
-    }
-</script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('.datepicker').datepicker({
-			format: "yyyy-mm-dd",
-			todayBtn: false,
-			orientation: "bottom right",
-			autoclose: true,
-			startDate: '-100y',
-			endDate: '-18y',
-			todayHighlight: true
-		});
-	});
-</script>

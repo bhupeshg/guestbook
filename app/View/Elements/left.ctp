@@ -61,6 +61,35 @@ $lawyersStatus = '';
             </li>
         </ul>
     </li>
+	<li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-desktop"></i>
+            <span class="menu-text"> Staff </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'users','action'=>'addStaff'), array('escape' => false))?>
+            </li>
+            <li>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'users','action'=>'manageStaff'), array('escape' => false))?>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-desktop"></i>
+            <span class="menu-text"> Roles </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'roles','action'=>'assign'), array('escape' => false))?>
+            </li>
+        </ul>
+    </li>
 
 
     <!--

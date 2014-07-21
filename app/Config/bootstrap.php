@@ -127,5 +127,5 @@ Configure::write('PAYMENT_TYPES', array('Cheque'=>'Cheque','Gateway'=>'Gateway',
 Configure::write('USER_TYPES', array(1=>'Super',2=>'Lawyer',3=>'Staff',4=>'Admin Staff',5=>'Front End User'));
 define('NO_RECORD','No records found');
 define('SITE_NAME','Guestbook');
-define('LIMIT',2);
+define('LIMIT',10);
 define('REQUIRED','<span class="red">*</span>');

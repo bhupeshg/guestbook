@@ -46,6 +46,13 @@ class User extends AppModel
                 'message' => "You cannot use special characters in last name"
             )
         ),
+		'staff_role_id' => array(
+            'NotEmpty' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Please select Role',
+                'last' => true,
+            )
+        ),
         'email' => array(
             'email' => array(
                 'on' => 'create',
@@ -89,7 +96,7 @@ class User extends AppModel
         ),
         'plan_id' => array(
             'NotEmpty' => array(
-                'rule' => array('notEmpty','date'),
+                'rule' => array('notEmpty'),
                 'message' => 'Please select Plan',
                 'last' => true,
             )

@@ -91,7 +91,7 @@ class AdminsController extends AppController
             $urlString .= $this->params['pass'][0] . "/";
         }*/
         $criteria = "";
-        $criteria .= " User.user_type=2 AND User.status!=3";
+        $criteria .= " User.user_type=2 AND User.is_deleted=0";
         if (isset($this->data['User']) || !empty($this->params['named'])) {
 
             if (isset($this->data['User']['first_name']) && ($this->data['User']['first_name'] != '')) {
@@ -128,6 +128,7 @@ class AdminsController extends AppController
             //'contain' => array('Customer' => array('Country', 'State', 'City'))
         );
         $records = $this->Paginator->paginate('User', $criteria);
+		//echo '<pre>'; print_r($records); die;
         $this->set('records', $records);
         $this->set('paginateLimit', $paginateLimit);
     }
@@ -291,7 +292,6 @@ class AdminsController extends AppController
 				$userProfileTblValidationErrors = $this->Profile->validationErrors;
 				$this->request->data += array_merge($userTblValidationErrors, $userProfileTblValidationErrors);
 			}
-			pr($this->request->data); die;
 		}
 		$this->request->data = $this->User->read(null, $id);
 		//pr($this->request->data);
