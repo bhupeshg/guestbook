@@ -8,10 +8,6 @@ class AdminsController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        if (!$this->isAdminLoggedIn()) {
-            $this->Session->setFlash(Configure::read('UNAUTHORIZED_ACCESS'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
     }
 
     public function add()

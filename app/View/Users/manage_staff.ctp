@@ -138,7 +138,9 @@ echo $this->Form->create('User',array('action' => 'manageStaff','id'=>'userListF
                     <div class="hidden-phone visible-desktop action-buttons">
 						<?php echo $this->Html->link('<i class="icon-zoom-in bigger-130"></i>', array('controller'=>'users','action'=>'dashboard'), array('escape' => false, 'class' => 'blue'))?>
 
-						<?php echo $this->Html->link('<i class="icon-pencil bigger-130"></i>', array('controller'=>'admins','action'=>'editStaff',$record['User']['id']), array('escape' => false, 'class' => 'green'))?>
+						<?php echo $this->Html->link('<i class="icon-pencil bigger-130"></i>', array('controller'=>'users','action'=>'editStaff',$record['User']['id']), array('escape' => false, 'class' => 'green'))?>
+
+                        <?php echo $this->Html->link('<i class="icon-pencil bigger-130"></i>', array('controller'=>'users','action'=>'editStaffRoles',$record['User']['id']), array('escape' => false, 'class' => 'green'))?>
 						
 						<?php echo $this->Html->link('<i class="icon-trash bigger-130"></i>', array('controller'=>'admins','action'=>'deleteStaff',$record['User']['id']), array('escape' => false, 'class' => 'red'),"Are you sure you want to delete this staff?")?>
 						

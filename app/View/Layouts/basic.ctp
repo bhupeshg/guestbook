@@ -10,7 +10,7 @@
     echo $this->Html->css('style');
     echo $this->Html->css('bootstrap.min');
     echo $this->Html->css('bootstrap-responsive.min');
-    echo $this->Html->css('font-awesome.min'); 
+    echo $this->Html->css('font-awesome.min');
 	echo $this->Html->css('datepicker');
 	?>
 
@@ -159,7 +159,7 @@
     <![endif]-->
 
     <!-- ace scripts -->
-    <?php 
+    <?php
 	echo $this->Html->script('jquery-ui-1.10.3.custom.min');
 	echo $this->Html->script('date-time/bootstrap-datepicker.min');
 	/*echo $this->Html->script('chosen.jquery.min');
@@ -170,6 +170,6 @@
 	echo $this->Html->script('jquery.maskedinput.min');*/
     echo $this->Html->script('ace-elements.min');
     echo $this->Html->script('ace.min'); ?>
-	
+
 </body>
 </html>

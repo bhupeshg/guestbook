@@ -219,4 +219,82 @@ class User extends AppModel
         }
         return false;
     }
+
+    public function detailsWithPermissions($conditions=null){
+        $options = array();
+        $options['joins'] = array(
+            array(
+                'table' => 'user_modules',
+                'alias' => 'UserModule',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'UserModule.user_id = User.id'
+                )
+            )
+        );
+        $options['conditions'] = $conditions;
+        $options['contain'] = false;
+        $options['fields'] = array('Address.*', 'Location.*');
+        $this->find('all', $options);
+        /*return $this->find($type, array(
+                'conditions' => $conditions,
+                'fields' => $fields,
+                'order' => $order,
+                'limit' => $limit,
+                'group' => $groupBy
+            )
+        );*/
+    }
+
+    public function userSessionRequiredModelJoins()
+    {
+        $this->unbindModel(array('hasOne' => array('Profile')));
+
+        $this->bindModel(array
+        (
+            'hasMany' => array
+            (
+                'UserModule' => array
+                (
+                    'className'  => 'UserModule',
+                    'foreignKey' => "user_id",
+                    'conditions' => array(),
+                    'fields' => array('UserModule.id, UserModule.module_id')
+                )
+            )
+        ), false);
+
+        App::import('model', 'UserModule');
+
+        $userModuleModel = new UserModule();
+
+        $userModuleModel->bindModel(array
+        (
+            'hasMany' => array
+            (
+                'UserModulePermission' => array
+                (
+                    'className'  => 'UserModulePermission',
+                    'foreignKey' => "user_module_id",
+                    'conditions' => array(),
+                    'fields' => array('UserModulePermission.module_permission_id')
+                )
+            )
+        ), false);
+
+        App::import('model', 'UserModulePermission');
+
+        $userModulePermissionModel = new UserModulePermission();
+
+        $userModulePermissionModel->unbindModel(array('belongsTo' => array('UserModule')));
+    }
+
+    public function listActiveLawyers(){
+        return $this->find('list', array(
+                'conditions' => array('User.user_type'=>'2', 'User.status'=>'1'),
+                'fields' => array('id','first_name'),
+                'order' => 'User.first_name'
+            )
+        );
+    }
 }

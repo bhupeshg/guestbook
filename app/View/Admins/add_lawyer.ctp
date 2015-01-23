@@ -115,15 +115,6 @@
 		</div>
 	</div>
 
-    <div class="hr hr-24"></div>
-
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Roles</label>
-        <div class="col-sm-9">
-
-        </div>
-    </div>
-
 	<div class="hr hr-24"></div>
 	
 	<div class="form-group">

@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="page-header">
         <h1>
-            Staff Management
+            <?php echo $pageTitle; ?>
             <small>
                 <i class="icon-double-angle-right"></i>
                 <?php echo $pageTitle; ?>
@@ -13,34 +13,24 @@
     <div class="row">
         <div class="col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
-            <?php echo $this->Form->create('User', array('action' => 'addStaff', 'class' => 'form-horizontal', 'name' => 'addStaff', 'id' => 'addStaff')); ?>
+            <?php echo $this->Form->create('Case', array('action' => 'add', 'class' => 'form-horizontal', 'name' => 'add', 'id' => 'add')); ?>
+
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-name"> Name </label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Case Type </label>
 
                 <div class="col-sm-9">
-                    <?php echo $this->Form->input('User.first_name', array('label' => false, 'div' => false, 'id' => 'form-field-1', 'placeholder' => 'First Name', "required" => "required")); ?>
-                    <?php echo $this->Form->input('User.last_name', array('label' => false, 'div' => false, 'id' => 'form-field-1', 'placeholder' => 'Last Name', "required" => "required")); ?>
+                    <?php echo $this->Form->input('Case.type', array('options' => array('Case','Notice','PIL'), 'empty' => '--Select Role--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose Case type', "required" => "required")); ?>
                 </div>
             </div>
 
             <div class="space-4"></div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Role </label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('User.staff_role_id', array('options' => $listRoles, 'empty' => '--Select Role--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Role', "required" => "required")); ?>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> DOB </label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Description </label>
 
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <?php echo $this->Form->input('Profile.dob', array('label' => false, 'type' => 'text', 'div' => false, 'placeholder' => 'DOB', 'id' => 'id-date-picker-1', 'data-date-format' => 'dd-mm-yyyy', "class" => "form-control datepicker", "required" => "required")); ?>
+                        <?php echo $this->Form->input('Case.description', array('label' => false, 'type' => 'textarea', 'div' => false, 'placeholder' => 'Description', "class" => "form-control", "required" => "required")); ?>
                         <span class="input-group-addon">
 					<i class="icon-calendar bigger-110"></i>
 				</span>
@@ -51,45 +41,65 @@
             <div class="space-4"></div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-input-mobile"> Mobile </label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Filing date </label>
 
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.mobile', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Mobile')); ?>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <?php echo $this->Form->input('Case.filing_date', array('label' => false, 'type' => 'text', 'div' => false, 'placeholder' => 'DOB', 'id' => 'id-date-picker-1', 'data-date-format' => 'dd-mm-yyyy', "class" => "form-control datepicker", "required" => "required")); ?>
+                        <span class="input-group-addon">
+					<i class="icon-calendar bigger-110"></i>
+				</span>
+                    </div>
                 </div>
             </div>
 
             <div class="space-4"></div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Email</label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Applicable Acts </label>
 
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('User.email', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Email', "required" => "required")); ?>
-                    <div class="clear"></div>
-                    <?php echo $this->Form->error('User.email'); ?>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <?php echo $this->Form->input('Case.applicable_acts', array('label' => false, 'type' => 'textarea', 'div' => false, 'placeholder' => 'Applicable Acts', "class" => "form-control", "required" => "required")); ?>
+                        <span class="input-group-addon">
+					<i class="icon-calendar bigger-110"></i>
+				</span>
+                    </div>
                 </div>
             </div>
+
+            <div class="space-4"></div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-password">Password</label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Court</label>
 
                 <div class="col-sm-9">
-                    <?php echo $this->Form->input('User.user_pwd', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'type' => 'password', 'placeholder' => 'Password', "required" => "required")); ?>
-                    <div class="clear"></div>
-                    <?php echo $this->Form->error('User.user_pwd'); ?>
+                    <?php echo $this->Form->input('Case.court', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Court', "required" => "required")); ?>
                 </div>
             </div>
+
+            <div class="space-4"></div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-confirm-password">Confirm
-                    Password</label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Reference Number</label>
 
                 <div class="col-sm-9">
-                    <?php echo $this->Form->input('User.confirm_password', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'type' => 'password', 'placeholder' => 'Confirm Password', "required" => "required")); ?>
+                    <?php echo $this->Form->input('Case.reference_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Reference Number', "required" => "required")); ?>
                     <div class="clear"></div>
-                    <?php echo $this->Form->error('User.confirm_password'); ?>
                 </div>
             </div>
+
+            <div class="space-4"></div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Judge</label>
+                <div class="col-sm-9">
+                    <?php echo $this->Form->input('Case.judge', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Judge')); ?>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="space-4"></div>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-address1">Address 1</label>

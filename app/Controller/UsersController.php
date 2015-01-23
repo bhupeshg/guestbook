@@ -37,7 +37,12 @@ class UsersController extends AppController
                 if ($this->request->data['User']['action'] == 'login') {
                     $this->User->validate = $this->User->validateLogin;
                     if ($this->User->validate) {
-                        $userDetails = $userModel->getDetails('first',array('User.email' => $this->request->data['User']['login_email'], 'User.user_pwd' => $this->request->data['User']['user_pwd']), array('id', 'first_name', 'last_name', 'email', 'user_type', 'status', 'is_deleted', 'plan_expiry_date'));
+                        $userModel->userSessionRequiredModelJoins();
+
+                        $this->User->recursive = 3;
+
+                        $userDetails = $userModel->getDetails('first',array('User.email' => $this->request->data['User']['login_email'], 'User.user_pwd' => $this->request->data['User']['user_pwd']), array('id', 'first_name', 'last_name', 'email', 'user_type', 'parent_id', 'status', 'is_deleted', 'plan_expiry_date'));
+
                         if ($userDetails) {
                             if(!$userModel->isUserActive($userDetails)){
                                 $this->Session->setFlash(Configure::read('INACTIVE_USER'));
@@ -55,6 +60,8 @@ class UsersController extends AppController
                             $userInfo['User']['last_login'] = time(); //date(Configure::read('DB_DATE_FORMAT'));
                             $userInfo['User']['last_login_ip'] = $_SERVER['REMOTE_ADDR'];
                             $this->User->save($userInfo, array('validate' => false));
+
+
 
                             //Will use common function to update or save model
                             /*$userInfo = array();
@@ -269,11 +276,12 @@ class UsersController extends AppController
         $modelStaffRole = new StaffRole();
         $listRoles = $modelStaffRole->getDetails('list', array(), array('id', 'name'));
         $this->set('listRoles', $listRoles);
-		
+
         $this->loadModel('User');
         $this->loadModel('Profile');
-		
+
 		if($this->request->data){
+            //pr($this->request->data); die;
 			$isUserValidate = false;
 			$isUserProfileValidate = false;
 
@@ -302,10 +310,20 @@ class UsersController extends AppController
 					$this->request->data['Profile']['first_name'] = $this->request->data['User']['first_name'];
 					$this->request->data['Profile']['last_name'] = $this->request->data['User']['last_name'];
 					$this->request->data['Profile']['email'] = $this->request->data['User']['email'];
-					if ($this->Profile->save($this->request->data)) {
-						$this->Session->setFlash(Configure::read('STAFF_ADDED'));
-						$this->redirect(array('controller' => 'users', 'action' => 'manageStaff'));
-					}
+
+                    try{
+                        $this->Profile->save($this->request->data);
+                    } catch (Exception $e) {
+                        //TODO throw $e;
+                    }
+
+                    $this->loadModel('UserModule');
+                    $userModuleModel = new UserModule();
+                    $this->request->data['UserModule']['user_id'] = $lastInsertedId;
+                    $userModuleModel->saveUserData($this->request->data);
+
+                    $this->Session->setFlash(Configure::read('STAFF_ADDED'));
+                    $this->redirect(array('controller' => 'users', 'action' => 'manageStaff'));
 				}
 			} else {
 				$userTblValidationErrors = $this->User->validationErrors;
@@ -351,7 +369,7 @@ class UsersController extends AppController
 					$this->request->data['Profile']['email'] = $this->request->data['User']['email'];
 					if ($this->Profile->save($this->request->data)) {
 						$this->Session->setFlash(Configure::read('STAFF_UPDATED'));
-						$this->redirect(array('controller' => 'admins', 'action' => 'manageLawyers'));
+						$this->redirect(array('controller' => 'users', 'action' => 'manageStaff'));
 					}
 				}
 			} else {
@@ -361,7 +379,7 @@ class UsersController extends AppController
 			}
 		}
 		$this->request->data = $this->User->read(null, $id);
-		//pr($this->request->data);
+		//pr($this->request->data); die;
 	    $this->set('id',$id);
     }
 	
@@ -395,5 +413,53 @@ class UsersController extends AppController
             $this->Session->setFlash(ERROR_OCCURRED);
         }
         $this->redirect($this->referer());
+    }
+
+    public function getRolePermissions($role){
+        $modulesWithPermissions = array();
+        if(!empty($role)){
+            $this->loadModel('RolePermission');
+            $rolePermissionModel = new RolePermission();
+            $modulesWithPermissions = $rolePermissionModel->getModulesByRole($role);
+        }
+        $this->set('modulesWithPermissions',$modulesWithPermissions);
+        $this->render('/Elements/Users/list_roles');
+    }
+
+    public function switchLawyer()
+    {
+        $this->layout = 'login';
+        $this->loadModel('User');
+        if ($this->request->data) {
+            if ($this->request->data['User']['lawyer_id']!='') {
+                $this->Session->write('UserInfo.lawyer_id', $this->request->data['User']['lawyer_id']);
+                $this->redirect(array('controller' => 'users', 'action' => 'dashboard'));
+            }
+        }
+        $userModel = new User();
+        $listLawyers = $userModel->listActiveLawyers();
+        $this->set('listLawyers',$listLawyers);
+    }
+
+    public function editStaffRoles($userId=null)
+    {
+        $this->layout = 'basic';
+        $this->pageTitle = 'Edit Staff Roles';
+        $this->set("pageTitle", $this->pageTitle);
+
+        App::import('model', 'StaffRole');
+        $modelStaffRole = new StaffRole();
+        $listRoles = $modelStaffRole->getDetails('list', array(), array('id', 'name'));
+        $this->set('listRoles', $listRoles);
+
+        $this->loadModel('User');
+
+        if($this->request->data){
+            $this->loadModel('UserModule');
+            $userModuleModel = new UserModule();
+            $this->request->data['UserModule']['user_id'] = $id;
+            $userModuleModel->saveUserData($this->request->data);
+        }
+        $this->set('userId', $userId);
     }
 }

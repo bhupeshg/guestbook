@@ -90,6 +90,19 @@ $lawyersStatus = '';
             </li>
         </ul>
     </li>
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-desktop"></i>
+            <span class="menu-text"> Cases </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'cases','action'=>'add'), array('escape' => false))?>
+            </li>
+        </ul>
+    </li>
 
 
     <!--

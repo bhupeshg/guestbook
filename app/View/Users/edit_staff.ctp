@@ -12,7 +12,7 @@
 <div class="row">
 <div class="col-xs-12">
 	<!-- PAGE CONTENT BEGINS -->
-	<?php echo $this->Form->create('User', array('url' => '/admins/editLawyer/'.$id, 'class' => 'form-horizontal','name'=>'editLawyer', 'id'=>'editLawyer')); ?>
+	<?php echo $this->Form->create('User', array('url' => '/users/editStaff/'.$id, 'class' => 'form-horizontal','name'=>'editStaff', 'id'=>'editStaff')); ?>
 	<div class="form-group">
 		<label class="col-sm-3 control-label no-padding-right" for="form-field-name"> Name </label>
 		<div class="col-sm-9">
