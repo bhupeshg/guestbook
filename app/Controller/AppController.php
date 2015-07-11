@@ -157,7 +157,7 @@ class AppController extends Controller
             return false;
         }
 
-        if($this->isAdminLoggedIn()){
+        if($this->isAdminLoggedIn() || $this->isUserLoggedIn()){
             return true;
         }
 
@@ -212,4 +212,16 @@ class AppController extends Controller
             }
         }
     }
+
+	public function dateTimeSqlFormat($dateTime)
+	{
+		$dateTime = strtotime($dateTime);
+		return date( 'Y-m-d H:i:s', $dateTime);
+	}
+
+	public function dateTimeDisplayFormat($dateTime)
+	{
+		$dateTime = strtotime($dateTime);
+		return date( 'm/d/Y g:i A', $dateTime);
+	}
 }

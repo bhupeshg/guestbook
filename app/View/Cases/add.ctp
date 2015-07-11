@@ -1,198 +1,339 @@
+<?php //echo $this->Html->css('dropzone'); ?>
 <div class="page-content">
-    <div class="page-header">
-        <h1>
-            <?php echo $pageTitle; ?>
-            <small>
-                <i class="icon-double-angle-right"></i>
-                <?php echo $pageTitle; ?>
-            </small>
-        </h1>
-    </div>
-    <!-- /.page-header -->
+	<div class="row">
+		<div class="page-header">
+			<h1>
+				<?php echo $pageTitle; ?>
+			</h1>
+		</div>
+		<?php echo $this->Form->create('ClientCase', array('url' => '/cases/add/'.$caseId, 'class' => 'form-horizontal', 'name' => 'add', 'id' => 'add')); ?>
+		<div class="col-sm-12 col-xs-12">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title">Case Details</h4>
+				</div>
+				<div class="widget-body">
+					<div class="widget-main">
+						<div class="row">
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 control-label no-padding-right" for="form-field-dob">Case Title: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.id', array('label' => false, 'div' => false, 'error' => false)); ?>
+											<?php echo $this->Form->input('ClientCase.title', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Title', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Court Case Number: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Case Number', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        </div>
+						<div class="row">
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Reference Number: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.ref_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Reference Number', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Court: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.court', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Court', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        </div>
+						<div class="row">
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Case Type: </label>
+										<div class="col-sm-8">
+											<?php
+											$caseType = array('Case' => 'Case', 'Notice' => 'Notice', 'PIL' => 'PIL');
+											echo $this->Form->input('ClientCase.type', array('options' => $caseType, 'empty' => '--Select Type--', 'label' => false, 'div' => false, 'class' => 'col-sm-12 col-xs-12', 'autocomplete' => 'off', 'data-placeholder' => 'Choose Case type', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Case Stage: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.stage', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Stage', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        </div>
+						<div class="row">
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Fee Settled: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.fee_settled', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Fee Settled')); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Filing Date: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.filing_date', array('label' => false, 'div' => false, 'type' => 'text', 'error' => false, 'class' => 'col-sm-12 col-xs-12 date-picker', 'placeholder' => 'Filing Date', 'data-date-format' => 'yyyy-mm-dd')); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        </div>
+						<div class="row">
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Referred By (Optional): </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.referred_by', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Referred By')); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        	<div class="col-sm-6">
+                        		<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Case Description: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.description', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Description', 'rows' => '3')); ?>
+										</div>
+									</div>
+								</div>
+                        	</div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xs-12">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title">Client Details</h4>
+				</div>
+				<div class="widget-body">
+					<div class="widget-main">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Select Client: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.client_id', array('options' => $listClients, 'empty' => '', 'label' => false, 'div' => false, 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Client', 'class' => 'select2')); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Representing: </label>
+										<div class="col-sm-8">
+											<div class="radio">
+												<?php
+												$caseTypeOptions = array('Petitionar','Defendant');
+												foreach($caseTypeOptions as $caseTypeOption)
+												{
+												$checked = (!empty($this->request->data['ClientCase']['representing'])
+															&& $this->request->data['ClientCase']['representing'] == $caseTypeOption)
+															? 'checked="checked"'
+															: ''
 
-    <div class="row">
-        <div class="col-xs-12">
+												?>
+												<label>
+													<input name="data[ClientCase][representing]" type="radio" <?php echo $checked; ?> class="ace" required="required" value="<?php echo $caseTypeOption; ?>" />
+													<span class="lbl"> <?php echo $caseTypeOption; ?></span>
+												</label>&nbsp;
+												<?php } ?>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Name: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.client_first_name', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-6 col-xs-6', 'placeholder' => 'First Name', "required" => "required")); ?>
+											<?php echo $this->Form->input('ClientCase.client_last_name', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-6 col-xs-6', 'placeholder' => 'Last Name', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Email: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.client_email', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Email', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-phone">Phone Number: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.client_phone_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Phone Number', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-alternate-number">Alternate Number: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.client_alternate_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Alternate Number')); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-xs-12">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title">Opponent Details</h4>
+				</div>
+				<div class="widget-body">
+					<div class="widget-main">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">First Name: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_first_name', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Title', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Last Name: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_last_name', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Case Number', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Lawyer: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_lawyer', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Lawyer', "required" => "required")); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Phone Number: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_phone_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Phone Number')); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Email: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_email', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Email')); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-dob">Postal Address: </label>
+										<div class="col-sm-8">
+											<?php echo $this->Form->input('ClientCase.opponent_postal_address', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-sm-12 col-xs-12', 'placeholder' => 'Postal Address')); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php echo $this->element('Cases/payments');?>
+
+		<!--<div class="col-sm-12 col-xs-12">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title">
+						Dropzone.js
+						<small>
+							<i class="ace-icon fa fa-angle-double-right"></i>
+							Drag &amp; drop file upload with image preview
+						</small>
+					</h4>
+				</div>
+				<div class="widget-body">
+					<div class="widget-main">
+						<div class="row" style="padding-left: 18px !important;">
+							<div class="col-xs-12">
+								<form action="../cases/uploadFiles" class="dropzone" id="dropzone">
+									<div class="fallback">
+										<input name="file" type="file" multiple="" />
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+
+        <div class="col-sm-12 col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
-            <?php echo $this->Form->create('Case', array('action' => 'add', 'class' => 'form-horizontal', 'name' => 'add', 'id' => 'add')); ?>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Case Type </label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Case.type', array('options' => array('Case','Notice','PIL'), 'empty' => '--Select Role--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose Case type', "required" => "required")); ?>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Description </label>
-
-                <div class="col-sm-4">
-                    <div class="input-group">
-                        <?php echo $this->Form->input('Case.description', array('label' => false, 'type' => 'textarea', 'div' => false, 'placeholder' => 'Description', "class" => "form-control", "required" => "required")); ?>
-                        <span class="input-group-addon">
-					<i class="icon-calendar bigger-110"></i>
-				</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Filing date </label>
-
-                <div class="col-sm-4">
-                    <div class="input-group">
-                        <?php echo $this->Form->input('Case.filing_date', array('label' => false, 'type' => 'text', 'div' => false, 'placeholder' => 'DOB', 'id' => 'id-date-picker-1', 'data-date-format' => 'dd-mm-yyyy', "class" => "form-control datepicker", "required" => "required")); ?>
-                        <span class="input-group-addon">
-					<i class="icon-calendar bigger-110"></i>
-				</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-dob"> Applicable Acts </label>
-
-                <div class="col-sm-4">
-                    <div class="input-group">
-                        <?php echo $this->Form->input('Case.applicable_acts', array('label' => false, 'type' => 'textarea', 'div' => false, 'placeholder' => 'Applicable Acts', "class" => "form-control", "required" => "required")); ?>
-                        <span class="input-group-addon">
-					<i class="icon-calendar bigger-110"></i>
-				</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Court</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Case.court', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Court', "required" => "required")); ?>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Reference Number</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Case.reference_number', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Reference Number', "required" => "required")); ?>
-                    <div class="clear"></div>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Judge</label>
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Case.judge', array('label' => false, 'div' => false, 'error' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Judge')); ?>
-                    <div class="clear"></div>
-                </div>
-            </div>
-
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-address1">Address 1</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.street_address_1', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Address 1')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-address2">Address 2</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.street_address_2', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Address 2')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-country">Country</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.country', array('options' => array('1' => 'India'), 'empty' => '--Select Country--', 'label' => false, 'div' => false, 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Country', 'class' => 'col-xs-10 col-sm-5')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-state">State</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.state', array('options' => array('1' => 'Punjab'), 'empty' => '--Select State--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a State')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-city">City</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.city', array('options' => array('1' => 'Chandigarh'), 'empty' => '--Select City--', 'label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'autocomplete' => 'off', 'data-placeholder' => 'Choose a City')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Zip</label>
-
-                <div class="col-sm-9">
-                    <?php echo $this->Form->input('Profile.zip', array('label' => false, 'div' => false, 'class' => 'col-xs-10 col-sm-5', 'placeholder' => 'Zip')); ?>
-                </div>
-            </div>
-
-
-            <div class="hr hr-24"></div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-zip">Modules &
-                    Permissions</label>
-                <div class="col-sm-9" id="modulePermissions">
-                    <div class="controls">
-                        <label>
-                            <span class="lbl">No Role Selected</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!--<div class="row">
-                <div class="col-sm-12">
-                    <div class="widget-box">
-                        <div class="widget-header">
-                            <h4>jQuery UI Sliders</h4>
-                        </div>
-
-                        <div class="widget-body">
-                            <div class="widget-main">
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-2">
-                                        <div id="slider-range"></div>
-                                    </div>
-
-                                    <div class="col-xs-9 col-md-10">
-                                        <div id="eq">
-                                            <span class="ui-slider-green">77</span>
-                                            <span class="ui-slider-red">55</span>
-                                            <span class="ui-slider-purple">33</span>
-                                            <span class="ui-slider-orange">40</span>
-                                            <span class="ui-slider-dark">88</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
             <div class="clearfix form-actions">
                 <div class="col-md-offset-3 col-md-9">
                     <?php echo $this->Form->button("<i class='icon-ok bigger-110'></i>Submit", array("class" => "btn btn-info", "escape" => false, "type" => "submit"));?>
@@ -203,24 +344,36 @@
                     </button>
                 </div>
             </div>
-            <?php echo $this->Form->end(); ?>
+
             <div class="hr hr-18 dotted hr-double"></div>
         </div>
+
+        <?php echo $this->Form->end(); ?>
         <!-- /.col -->
     </div>
     <!-- /.row -->
 </div><!-- /.page-content -->
+<!-- page specific plugin scripts -->
+<?php echo $this->Html->script('dropzone'); ?>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#UserStaffRoleId').change(function(){
-            var selectedRoleId = $("#UserStaffRoleId").val();
-            $.ajax({
-                category: "GET",
-                url: '<?php echo $this->Html->url(array('controller'=>'users', 'action' => 'getRolePermissions')) ?>/'+selectedRoleId,
-                success: function(response){
-                    $('#modulePermissions').html(response);
-                }
-            })
-        })
-    })
+	$(document).ready(function(){
+		$('.select2').css('width','100%').select2();
+
+		$('#ClientCaseClientId').on('change', function(){
+			var client_id = $(this).val();
+			if(client_id != '')
+			{
+				$.ajax({
+					dataType: "json",
+					type: "GET",
+					url: '<?php echo Router::url(array('controller'=>'cases','action'=>'getClientDetails'));?>/'+client_id,
+					success: function (data){
+						$.each(data, function(i, item) {
+							$('#'+i).val(item);
+                        })
+					}
+				});
+			}
+		});
+	});
 </script>

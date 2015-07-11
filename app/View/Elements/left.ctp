@@ -43,8 +43,9 @@ $lawyersStatus = '';
 
 ?>
     <li class="active">
-        <?php echo $this->Html->link('<i class="icon-dashboard"></i><span class="menu-text"> Dashboard </span>', array('controller'=>'users','action'=>'dashboard'), array('escape' => false))?>
+        <?php echo $this->Html->link('<i class="icon-desktop"></i><span class="menu-text"> Dashboard </span>', array('controller'=>'users','action'=>'dashboard'), array('escape' => false))?>
     </li>
+    <?php if ($this->Session->read('isSuperAdmin') != '') { ?>
     <li>
         <a href="#" class="dropdown-toggle">
             <i class="icon-desktop"></i>
@@ -90,20 +91,82 @@ $lawyersStatus = '';
             </li>
         </ul>
     </li>
-    <li>
+    <?php }
+
+    $caseMain = '';
+    $caseSub = '';
+    $clientMain = '';
+	$clientSub = '';
+	$appointmentMain = '';
+    $appointmentSub = '';
+    if($this->params['controller'] == 'cases')
+    {
+		$caseMain = 'open';
+		$caseSub = 'style="display:block;"';
+    }
+
+    if($this->params['controller'] == 'appointments')
+	{
+		$appointmentMain = 'open';
+		$appointmentSub = 'style="display:block;"';
+	}
+
+	if($this->params['controller'] == 'lawyers')
+	{
+		$clientMain = 'open';
+		$clientSub = 'style="display:block;"';
+	}
+    ?>
+    <li class="<?php echo $caseMain; ?>">
         <a href="#" class="dropdown-toggle">
-            <i class="icon-desktop"></i>
+            <i class="icon-list"></i>
             <span class="menu-text"> Cases </span>
             <b class="arrow icon-angle-down"></b>
         </a>
 
-        <ul class="submenu">
+        <ul class="submenu" <?php echo $caseSub; ?>>
             <li>
-                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'cases','action'=>'add'), array('escape' => false))?>
+                <?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'cases','action'=>'manage'), array('escape' => false))?>
             </li>
+            <li>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'cases','action'=>'add'), array('escape' => false))?>
+			</li>
         </ul>
     </li>
 
+	<li class="<?php echo $clientMain; ?>">
+		<a href="#" class="dropdown-toggle">
+			<i class="icon-user"></i>
+			<span class="menu-text"> Clients </span>
+			<b class="arrow icon-angle-down"></b>
+		</a>
+
+		<ul class="submenu" <?php echo $clientSub; ?>>
+			<li>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'lawyers','action'=>'manageClient'), array('escape' => false))?>
+			</li>
+			<li>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'lawyers','action'=>'addClient'), array('escape' => false))?>
+			</li>
+		</ul>
+	</li>
+
+	<li class="<?php echo $appointmentMain; ?>">
+		<a href="#" class="dropdown-toggle">
+			<i class="icon-dashboard"></i>
+			<span class="menu-text"> Appointments </span>
+			<b class="arrow icon-angle-down"></b>
+		</a>
+
+		<ul class="submenu" <?php echo $appointmentSub; ?>>
+			<li>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'appointments','action'=>'manage'), array('escape' => false))?>
+			</li>
+			<li>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'appointments','action'=>'add'), array('escape' => false))?>
+			</li>
+		</ul>
+	</li>
 
     <!--
     <li class="active">

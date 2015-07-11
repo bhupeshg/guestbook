@@ -9,9 +9,13 @@
     echo $this->Html->meta('icon');
     echo $this->Html->css('style');
     echo $this->Html->css('bootstrap.min');
+    echo $this->Html->css('bootstrap-timepicker.min');
+    echo $this->Html->css('bootstrap-datetimepicker');
     echo $this->Html->css('bootstrap-responsive.min');
+    echo $this->Html->css('dropzone');
     echo $this->Html->css('font-awesome.min');
 	echo $this->Html->css('datepicker');
+	echo $this->Html->css('chosen');
 	?>
 
     <!--[if IE 7]>
@@ -24,13 +28,15 @@
     echo $this->Html->css('ace.min');
     echo $this->Html->css('ace-rtl.min');
     echo $this->Html->css('ace-skins.min');
+    echo $this->Html->css('select2/select2');
     ?>
     <!--[if lte IE 8]>
     <?php echo $this->Html->css('ace-ie.min'); ?>
     <![endif]-->
-
-    <!-- inline styles related to this page -->
-    <?php echo $this->Html->script('jquery.min');?>
+    <?php
+    echo $this->Html->script('jquery-2.0.3.min');
+	echo $this->Html->script('bootstrap.min');
+    ?>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <?php echo $this->Html->script('ace-extra.min'); ?>
 	<script type="text/javascript">
@@ -145,11 +151,6 @@
         if ("ontouchend" in document) document.write("<script src='<?php echo SITE_URL; ?>/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
 
-
-
-    <?php
-    echo $this->Html->script('bootstrap.min');
-    ?>
     <!--<script src="assets/js/typeahead-bs2.min.js"></script>-->
 
     <!-- page specific plugin scripts -->
@@ -161,15 +162,22 @@
     <!-- ace scripts -->
     <?php
 	echo $this->Html->script('jquery-ui-1.10.3.custom.min');
-	echo $this->Html->script('date-time/bootstrap-datepicker.min');
+	echo $this->Html->script('date-time/moment');
+	echo $this->Html->script('date-time/bootstrap-datepicker');
+	echo $this->Html->script('date-time/bootstrap-timepicker.min');
+    echo $this->Html->script('date-time/bootstrap-datetimepicker');
 	/*echo $this->Html->script('chosen.jquery.min');
 	echo $this->Html->script('fuelux/fuelux.spinner.min');
-	echo $this->Html->script('date-time/bootstrap-datepicker.min');
 	echo $this->Html->script('jquery.autosize-min');
 	echo $this->Html->script('jquery.inputlimiter.1.3.1.min');
 	echo $this->Html->script('jquery.maskedinput.min');*/
     echo $this->Html->script('ace-elements.min');
-    echo $this->Html->script('ace.min'); ?>
-
+    echo $this->Html->script('ace.min');
+    echo $this->Html->script('functions');
+    echo $this->Html->script('jquery.bootstrap-duallistbox');
+    echo $this->Html->script('jquery.raty');
+    echo $this->Html->script('select2');
+    echo $this->Html->script('dropzone');
+    ?>
 </body>
 </html>

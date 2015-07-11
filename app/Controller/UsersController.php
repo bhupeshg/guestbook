@@ -107,7 +107,7 @@ class UsersController extends AppController
                 }
             }
         } else {
-            $this->redirect(array('controller' => 'users', 'action' => 'myAccount'));
+            $this->redirect(array('controller' => 'users', 'action' => 'dashboard'));
             exit();
         }
 
@@ -462,4 +462,9 @@ class UsersController extends AppController
         }
         $this->set('userId', $userId);
     }
+
+	public function listClients()
+	{
+		echo '<pre>'; print_r($_REQUEST); die;
+	}
 }

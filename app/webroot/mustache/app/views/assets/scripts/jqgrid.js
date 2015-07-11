@@ -76,7 +76,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: $path_base+"/dummy.html",//nothing is saved
+		editurl: $path_base+"/ssdummy.html",//nothing is saved
 		caption: "jqGrid with inline editing",
 
 

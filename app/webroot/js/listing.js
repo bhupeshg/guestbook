@@ -126,7 +126,7 @@ function isRecordSelected(className, selectRecordDivID, confirmMsgDivID, formNam
 
 /**Function By Ashish Starts**/
 function updateRecords(dval,frmName){
-  if(dval > 0){
+  if(dval > 0 || dval != ''){
     var dealre = promptCheckOne(frmName,dval);
     if(dealre){
       jQuery('#' + frmName).submit();
@@ -137,7 +137,7 @@ function updateRecords(dval,frmName){
 function promptCheckOne(frmName,doAction)
 {
   var flag=0;
-  var actionText = '';
+  var actionText = doAction;
   if(doAction=='1'){
     actionText = 'Activate';
   }else if(doAction=='2'){
@@ -156,10 +156,26 @@ function promptCheckOne(frmName,doAction)
   
   if(flag==1)
   {
-    if(confirm('Are you sure you want to ' + actionText + ' selected records?')){
-      return true;
+    if(frmName==='listAppointmentForm'){
+        if(actionText=='Activate')
+        {
+            actionText = 'Pending';
+        }
+        else if(actionText=='Deactivate')
+        {
+            actionText = 'Closed';
+        }
+        if(confirm('Are you sure that you want to mark selected records as ' + actionText + '?')){
+            return true;
+        }else{
+            return false;
+        }
     }else{
-      return false;
+        if(confirm('Are you sure you want to ' + actionText + ' selected records?')){
+            return true;
+        }else{
+            return false;
+        }
     }
   }else{
     alert("Please select atleast one record");

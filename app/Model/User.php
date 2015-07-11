@@ -297,4 +297,17 @@ class User extends AppModel
             )
         );
     }
+
+	public function listActiveClients($lawyerId){
+		return $this->find('list', array(
+				'conditions' => array(
+					'User.user_type'=>'4',
+					'User.status'=>'1',
+					'User.parent_id'=>$lawyerId
+				),
+				'fields' => array('id','first_name'),
+				'order' => 'User.first_name'
+			)
+		);
+	}
 }

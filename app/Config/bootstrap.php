@@ -129,3 +129,16 @@ define('NO_RECORD','No records found');
 define('SITE_NAME','Guestbook');
 define('LIMIT',10);
 define('REQUIRED','<span class="red">*</span>');
+define('CLIENT_ADDED','<span class="setFlash success">Client added successfully.</span>');
+define('CLIENT_UPDATED','<span class="setFlash success">Client updated successfully.</span>');
+define('CLIENT_DELETED','<span class="setFlash success">Client deleted successfully.</span>');
+define('APPOINTMENT_ADDED','<span class="setFlash success">Appointment added successfully.</span>');
+define('APPOINTMENT_UPDATED','<span class="setFlash success">Appointment updated successfully.</span>');
+define('APPOINTMENT_DELETED','<span class="setFlash success">Appointment deleted successfully.</span>');
+define('CASE_INFORMATION_ADDED','<span class="setFlash success">Case information added successfully.</span>');
+define('CASE_DELETED','<span class="setFlash success">Case deleted successfully.</span>');
+define('HEARING_ADDED','<span class="setFlash success">Case Hearing added successfully.</span>');
+define('HEARING_DELETED','<span class="setFlash success">Case Hearing deleted successfully.</span>');
+define('PAYMENT_DELETED','<span class="setFlash success">Payment deleted successfully.</span>');
+
+Configure::write('APPOINTMENT_STATUS', array(1=>'Pending',2=>'Closed'));
