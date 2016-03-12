@@ -24,13 +24,6 @@ class Appointment extends AppModel
     );
 
 	public $validate = array(
-		'client_id' => array(
-			'NotEmpty' => array(
-				'rule' => array('notEmpty'),
-				'message' => 'Please select client',
-				'last' => true,
-			)
-		),
 		'datetime' => array(
 			'NotEmpty' => array(
 				'rule' => array('notEmpty'),

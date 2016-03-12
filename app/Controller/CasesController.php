@@ -160,6 +160,7 @@ class CasesController extends AppController
 		    }*/
 
 		    $this->set('case_payments',$caseDetails['CasePayment']);
+		    $this->set('caseInfo',$caseDetails['ClientCase']);
 	    }
 	    $this->set('caseId',$caseId);
 
@@ -169,9 +170,33 @@ class CasesController extends AppController
 	    $this->set('listClients',$listClients);
     }
 
-	function uploadFiles()
+	function uploadFiles($caseId, $clientId)
 	{
-		die(111);
+		$this->autoRender = false;
+		$dir = WWW_ROOT.'files'.DIRECTORY_SEPARATOR;
+
+		if (!empty($_FILES)) {
+
+			$this->loadModel('Document');
+			$file = $_FILES['file'];
+
+			$tmpFileNameArr = explode('.', $file['name']);
+			$fileName = $tmpFileNameArr[0].'_'.time().'.'.$tmpFileNameArr[1];
+
+			move_uploaded_file($_FILES['file']['tmp_name'], $dir . $fileName);
+
+			$this->request->data['Document']['name'] = $fileName;
+			$this->request->data['Document']['path'] = 'files';
+			$this->request->data['Document']['client_id'] = $clientId;
+			$this->request->data['Document']['client_case_id'] = $caseId;
+			$this->request->data['Document']['created_by'] = $this->Session->read("UserInfo.uid");
+			if ($this->Document->save($this->request->data)) {
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	function getClientDetails($clientId)

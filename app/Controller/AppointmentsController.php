@@ -69,10 +69,10 @@ class AppointmentsController extends AppController
 			}
 
 			if (isset($this->data['Client']['name']) && ($this->data['Client']['name'] != '')) {
-				$criteria .= " AND (Client.first_name LIKE '%" . $this->data['Client']['name'] . "%' OR Client.last_name LIKE '%" . $this->data['Client']['name'] . "%')";
+				$criteria .= " AND (Client.first_name LIKE '%" . $this->data['Client']['name'] . "%' OR Client.last_name LIKE '%" . $this->data['Client']['name'] . "%' OR Appointment.new_client_name LIKE '%" . $this->data['Client']['name'] . "%')";
 			} elseif (isset($this->params['named']['name']) && $this->params['named']['name'] != '') {
 				if (!isset($this->data['Client']['name'])) {
-					$criteria .= " AND (Client.first_name LIKE '%" . $this->params['named']['name'] . "%' OR Client.last_name LIKE '%" . $this->params['named']['name'] . "%')";
+					$criteria .= " AND (Client.first_name LIKE '%" . $this->params['named']['name'] . "%' OR Client.last_name LIKE '%" . $this->params['named']['name'] . "%' OR Appointment.new_client_name LIKE '%" . $this->params['named']['name'] . "%')";
 				}
 			}
 		}
@@ -100,6 +100,12 @@ class AppointmentsController extends AppController
 		$this->loadModel('Appointment');
 
 		if($this->request->data){
+
+			if($this->request->data['Appointment']['clientType']=='Existing') {
+				$this->request->data['Appointment']['new_client_name'] = '';
+			}else{
+				$this->request->data['Appointment']['client_id'] = '';
+			}
 			if ($this->Appointment->validates()) {
 				$dateTime = $this->request->data['Appointment']['datetime'];
 				$dateTime = strtotime($dateTime);
@@ -135,6 +141,14 @@ class AppointmentsController extends AppController
 		$this->loadModel('Appointment');
 
 		if($this->request->data){
+			//pr($this->request->data);
+			if($this->request->data['Appointment']['clientType']=='Existing') {
+				$this->request->data['Appointment']['new_client_name'] = '';
+			}else{
+				$this->request->data['Appointment']['client_id'] = '';
+			}
+			//pr($this->request->data);
+			//die;
 			if ($this->Appointment->validates()) {
 
 				$dateTime = $this->request->data['Appointment']['datetime'];

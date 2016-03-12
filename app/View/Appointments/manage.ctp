@@ -85,6 +85,9 @@ echo $this->Form->create('Appointment',array('action' => 'manage','id'=>'listApp
             <th role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1">
 				<?php echo $this->Paginator->sort('Appointment.date', 'Date & Time', array());?>
 			</th>
+			<th role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1">
+				<?php echo $this->Paginator->sort('Appointment.fee', 'Consultation Fee', array());?>
+			</th>
             <th role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1">
                 <!--<i class="icon-time bigger-110 hidden-phone"></i>-->
                 <?php echo $this->Paginator->sort('Appointment.created', 'Created', array());?>
@@ -112,9 +115,16 @@ echo $this->Form->create('Appointment',array('action' => 'manage','id'=>'listApp
                 </td>
 
                 <td class=" ">
-                    <?php echo $record['Client']['first_name'].' '.$record['Client']['last_name'];?>
+                    <?php
+                    if(!empty($record['Client']['first_name'])) {
+                    	echo $record['Client']['first_name'].' '.$record['Client']['last_name'];
+                    }elseif(!empty($record['Appointment']['new_client_name'])) {
+                    	echo $record['Appointment']['new_client_name'];
+                    }
+                    ?>
                 </td>
                 <td class=" "><?php echo $record['Appointment']['datetime']; ?></td>
+                <td class=" ">Rs <?php echo $record['Appointment']['fee']; ?></td>
                 <td class="hidden-480 ">
                     <?php echo date(Configure::read('VIEW_DATE_FORMAT'),strtotime($record['Appointment']['created']));?>
                 </td>
