@@ -140,5 +140,5 @@ define('CASE_DELETED','<span class="setFlash success">Case deleted successfully.
 define('HEARING_ADDED','<span class="setFlash success">Case Hearing added successfully.</span>');
 define('HEARING_DELETED','<span class="setFlash success">Case Hearing deleted successfully.</span>');
 define('PAYMENT_DELETED','<span class="setFlash success">Payment deleted successfully.</span>');
-
+define('DOCUMENT_DELETED','<span class="setFlash success">Document deleted successfully.</span>');
 Configure::write('APPOINTMENT_STATUS', array(1=>'Pending',2=>'Closed'));

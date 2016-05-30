@@ -1,5 +1,3 @@
-<?php //echo $this->Html->css('dropzone'); ?>
-<?php echo $this->Html->script('dropzone'); ?>
 <div class="page-content">
 	<div class="row">
 		<div class="page-header">
@@ -305,29 +303,8 @@
 			</div>
 		</div>
 		<?php echo $this->element('Cases/payments');?>
-		<?php if(!empty($caseId)){ ?>
-		<div class="col-sm-12 col-xs-12">
-			<div class="widget-box">
-				<div class="widget-header">
-					<h4 class="widget-title">
-						Upload Files
-						<small>
-							<i class="ace-icon fa fa-angle-double-right"></i>
-						</small>
-					</h4>
-				</div>
-				<div class="widget-body">
-					<div class="widget-main">
-						<div class="row">
-							<div class="col-xs-12">
-								<div class="dropzone dropzone-previews" id="my-awesome-dropzone"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php } ?>
+		<?php echo $this->element('Cases/documents');?>
+
         <div class="col-sm-12 col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
             <div class="clearfix form-actions">
@@ -352,10 +329,7 @@
 <!-- page specific plugin scripts -->
 
 <script type="text/javascript">
-	var caseId = "<?php echo $caseId; ?>";
-	var clientId = "<?php echo (!empty($caseInfo['client_id']) ? $caseInfo['client_id'] : ''); ?>";
 
-	Dropzone.autoDiscover = false;
 	$(document).ready(function(){
 		$('.select2').css('width','100%').select2();
 
@@ -374,25 +348,6 @@
 					}
 				});
 			}
-		});
-
-		/*Dropzone.options.myDropzone = {
-            init: function() {
-                thisDropzone = this;
-                $.get("../uploadFiles/" + caseId + "/" + clientId, function(data) {
-
-                    $.each(data, function(key,value){
-
-                        var mockFile = { name: value.name, size: value.size };
-                        thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-                        thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "uploads/"+value.name);
-                    });
-                });
-            }
-        };*/
-
-		$("div#my-awesome-dropzone").dropzone({
-			url: "../uploadFiles/" + caseId + "/" + clientId
 		});
 	});
 </script>

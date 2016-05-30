@@ -167,10 +167,16 @@ class CasesController extends AppController
 	    $this->loadModel('User');
 	    $userModel = new User();
 	    $listClients = $userModel->listActiveClients($this->Session->read("UserInfo.uid"));
+
+	    $this->loadModel('Document');
+	    $documentModel = new Document();
+	    $documents = $documentModel->listDocuments('client_case_id', $caseId);
+
 	    $this->set('listClients',$listClients);
+	    $this->set('documents',$documents);
     }
 
-	function uploadFiles($caseId, $clientId)
+	function uploadFiles($caseId, $clientId = NULL)
 	{
 		$this->autoRender = false;
 		$dir = WWW_ROOT.'files'.DIRECTORY_SEPARATOR;
@@ -181,18 +187,26 @@ class CasesController extends AppController
 			$file = $_FILES['file'];
 
 			$tmpFileNameArr = explode('.', $file['name']);
-			$fileName = $tmpFileNameArr[0].'_'.time().'.'.$tmpFileNameArr[1];
+			$fileOrgName = $tmpFileNameArr[0];
+			$fileName = $fileOrgName.'_'.time().'.'.$tmpFileNameArr[1];
 
 			move_uploaded_file($_FILES['file']['tmp_name'], $dir . $fileName);
 
+			$this->request->data['Document']['original_name'] = $fileOrgName;
 			$this->request->data['Document']['name'] = $fileName;
 			$this->request->data['Document']['path'] = 'files';
 			$this->request->data['Document']['client_id'] = $clientId;
 			$this->request->data['Document']['client_case_id'] = $caseId;
 			$this->request->data['Document']['created_by'] = $this->Session->read("UserInfo.uid");
+
+			if(empty($clientId)) {
+
+				$this->request->data['Document']['is_temp'] = 1;
+			}
+
 			if ($this->Document->save($this->request->data)) {
 
-				return true;
+				return $fileName;
 			}
 		}
 
@@ -460,6 +474,17 @@ class CasesController extends AppController
 		$this->CasePayment->id = $id;
 		if($this->CasePayment->delete($id)) {
 			$this->Session->setFlash(PAYMENT_DELETED);
+		} else {
+			$this->Session->setFlash(ERROR_OCCURRED);
+		}
+		$this->redirect($this->referer());
+	}
+
+	function deleteDocument($id=null) {
+		$this->loadModel('Document');
+		$this->Document->id = $id;
+		if($this->Document->delete($id)) {
+			$this->Session->setFlash(DOCUMENT_DELETED);
 		} else {
 			$this->Session->setFlash(ERROR_OCCURRED);
 		}
