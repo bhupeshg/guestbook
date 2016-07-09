@@ -1,6 +1,6 @@
 <?php
 /**
- * Application level Controller
+ * Application level Controller.
  *
  * This file is application-wide controller file. You can put all
  * application-wide controller-related methods here.
@@ -13,33 +13,38 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
  * @since         CakePHP(tm) v 0.2.9
+ *
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 
 /**
- * Application Controller
+ * Application Controller.
  *
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package        app.Controller
  * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller
 {
-
+    public $isApi = false;
     public $components = array('Session', 'Paginator');
 
     public function beforeFilter()
     {
+        if ($this->request->header('username')) {
+            $this->isApi = true;
+            if ($this->request->is('post') || $this->request->is('put')) {
+                $this->request->data = $this->request->input('json_decode', true);
+            }
+        }
         $currentUrl = $this->params['controller'].'/'.$this->params['action'];
 
-        if(!$this->checkUserAccess($currentUrl)){
+        if (!$this->checkUserAccess($currentUrl)) {
             $this->Session->setFlash(Configure::read('UNAUTHORIZED_ACCESS'));
             $this->redirect(array('controller' => 'users', 'action' => 'dashboard'));
         }
@@ -69,15 +74,17 @@ class AppController extends Controller
     public function generateToken()
     {
         $token = uniqid();
-        $this->Session->write("token", $token);
+        $this->Session->write('token', $token);
+
         return uniqid();
     }
 
     public function isTokenValid($token)
     {
-        if (!empty($token) && $this->Session->read("token") == $token) {
+        if (!empty($token) && $this->Session->read('token') == $token) {
             return true;
         }
+
         return false;
     }
 
@@ -86,6 +93,7 @@ class AppController extends Controller
         if ($this->Session->read('UserInfo.uid') != '') {
             return true;
         }
+
         return false;
     }
 
@@ -94,6 +102,7 @@ class AppController extends Controller
         if ($this->Session->read('isSuperAdmin') != '') {
             return true;
         }
+
         return false;
     }
 
@@ -126,11 +135,11 @@ class AppController extends Controller
 
             $userModulesArray = array();
             $userPermissionsArray = array();
-            if(isset($userDetails['UserModule']) && !empty($userDetails['UserModule'])){
-                foreach($userDetails['UserModule'] as $userModules){
+            if (isset($userDetails['UserModule']) && !empty($userDetails['UserModule'])) {
+                foreach ($userDetails['UserModule'] as $userModules) {
                     $userModulesArray[$userModules['module_id']] = array();
-                    if(isset($userModules['UserModulePermission']) && !empty($userModules['UserModulePermission'])){
-                        foreach($userModules['UserModulePermission'] as $userModulesPermission){
+                    if (isset($userModules['UserModulePermission']) && !empty($userModules['UserModulePermission'])) {
+                        foreach ($userModules['UserModulePermission'] as $userModulesPermission) {
                             $userPermissionsArray[$userModulesPermission['module_permission_id']] = $userModulesPermission['ModulePermission']['url'];
                             $userModulesArray[$userModules['module_id']][$userModulesPermission['module_permission_id']] = $userModulesPermission['ModulePermission']['url'];
                         }
@@ -147,51 +156,55 @@ class AppController extends Controller
     {
         $this->loadModel($model);
         if ($this->$model->save($data)) {
-
         }
     }
 
     public function checkUserAccess($currentUrl)
     {
-        if(empty($currentUrl)){
+        if (empty($currentUrl)) {
             return false;
         }
 
-        if($this->isAdminLoggedIn() || $this->isUserLoggedIn()){
+        if ($this->isAdminLoggedIn() || $this->isUserLoggedIn()) {
             return true;
         }
 
-        if(!$this->checkAllowedActions($currentUrl)){
-            if($this->isUserLoggedIn()){
-                if($this->Session->read('UserInfo.UserAccessPermissions')!=''){
-                    if($this->checkPermissions($currentUrl,$this->Session->read('UserInfo.UserAccessPermissions'))){
+        if (!$this->checkAllowedActions($currentUrl)) {
+            if ($this->isUserLoggedIn()) {
+                if ($this->Session->read('UserInfo.UserAccessPermissions') != '') {
+                    if ($this->checkPermissions($currentUrl, $this->Session->read('UserInfo.UserAccessPermissions'))) {
                         return true;
                     }
                 }
             }
-        }else{
+        } else {
             return true;
         }
+
         return false;
     }
 
     public function checkAllowedActions($currentUrl)
     {
-        if($this->checkPermissions($currentUrl,$this->allowedActions())){
+        if ($this->checkPermissions($currentUrl, $this->allowedActions())) {
             return true;
         }
+
         return false;
     }
 
-    public function checkPermissions($currentUrl,$listActions){
-        $listAllowedActions = array_map('strtolower',$listActions);
-        if(in_array(strtolower($currentUrl),$listAllowedActions)){
+    public function checkPermissions($currentUrl, $listActions)
+    {
+        $listAllowedActions = array_map('strtolower', $listActions);
+        if (in_array(strtolower($currentUrl), $listAllowedActions)) {
             return true;
         }
+
         return false;
     }
 
-    public function allowedActions(){
+    public function allowedActions()
+    {
         return array(
             'users/dashboard',
             'users/login',
@@ -199,29 +212,32 @@ class AppController extends Controller
         );
     }
 
-    public function isLawyerSelected(){
-        if ($this->Session->read('UserInfo')!='') {
-            if ($this->Session->read('UserInfo.lawyer_id')=='' || $this->Session->read('UserInfo.lawyer_id')==0) {
-                if($this->isAdminLoggedIn()){
-                    if($this->params['action']!='switchLawyer'){
+    public function isLawyerSelected()
+    {
+        if ($this->Session->read('UserInfo') != '') {
+            if ($this->Session->read('UserInfo.lawyer_id') == '' || $this->Session->read('UserInfo.lawyer_id') == 0) {
+                if ($this->isAdminLoggedIn()) {
+                    if ($this->params['action'] != 'switchLawyer') {
                         $this->redirect(array('controller' => 'users', 'action' => 'switchLawyer'));
                     }
-                }else{
+                } else {
                     $this->redirect(array('controller' => 'users', 'action' => 'logout'));
                 }
             }
         }
     }
 
-	public function dateTimeSqlFormat($dateTime)
-	{
-		$dateTime = strtotime($dateTime);
-		return date( 'Y-m-d H:i:s', $dateTime);
-	}
+    public function dateTimeSqlFormat($dateTime)
+    {
+        $dateTime = strtotime($dateTime);
 
-	public function dateTimeDisplayFormat($dateTime)
-	{
-		$dateTime = strtotime($dateTime);
-		return date( 'm/d/Y g:i A', $dateTime);
-	}
+        return date('Y-m-d H:i:s', $dateTime);
+    }
+
+    public function dateTimeDisplayFormat($dateTime)
+    {
+        $dateTime = strtotime($dateTime);
+
+        return date('m/d/Y g:i A', $dateTime);
+    }
 }

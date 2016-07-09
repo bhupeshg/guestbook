@@ -160,7 +160,7 @@ $lawyersStatus = '';
 
 		<ul class="submenu" <?php echo $appointmentSub; ?>>
 			<li>
-				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'appointments','action'=>'manage'), array('escape' => false))?>
+				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Manage ', array('controller'=>'appointments','action'=>'index'), array('escape' => false))?>
 			</li>
 			<li>
 				<?php echo $this->Html->link('<i class="icon-double-angle-right"></i> Add ', array('controller'=>'appointments','action'=>'add'), array('escape' => false))?>

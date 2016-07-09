@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-xs-12">
             <!-- PAGE CONTENT BEGINS -->
-            <?php echo $this->Form->create('Appointment', array('action' => 'edit',$id, 'class' => 'form-horizontal', 'name' => 'add', 'id' => 'add')); ?>
+            <?php echo $this->Form->create('Appointment', array('action' => 'edit/'.$id, 'class' => 'form-horizontal', 'name' => 'add', 'id' => 'add')); ?>
 
             <div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right" for="form-field-name"> Client Type </label>
