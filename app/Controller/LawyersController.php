@@ -135,7 +135,8 @@ class LawyersController extends AppController
 				//pr($this->request->data); die;
 				$this->request->data['User']['type'] = 'Lawyer';
 				$this->request->data['User']['user_type'] = 4;
-				$this->request->data['User']['created_by'] = $this->Session->read("uid");
+				$this->request->data['User']['parent_id'] = $this->Session->read("UserInfo.lawyer_id");
+				$this->request->data['User']['created_by'] = $this->Session->read("UserInfo.uid");
 				if ($this->User->save($this->request->data)) {
 					$lastInsertedId = $this->User->getLastInsertId();
 					$this->request->data['Profile']['user_id'] = $lastInsertedId;
@@ -253,5 +254,71 @@ class LawyersController extends AppController
 			$this->Session->setFlash(ERROR_OCCURRED);
 		}
 		$this->redirect($this->referer());
+	}
+
+	public function addQuickClient()
+	{
+		$this->layout = 'ajax';
+
+		$this->loadModel('User');
+		$this->loadModel('Profile');
+
+		$result = array('status' => 'error', 'message' => 'Unable to process data');
+
+		if($this->request->data){
+			$this->User->set($this->request->data);
+			if ($this->User->validates()) {
+				$isUserValidate = true;
+			} else {
+				$isUserValidate = false;
+			}
+
+			$this->Profile->set($this->request->data);
+			if ($this->Profile->validates()) {
+				$isUserProfileValidate = true;
+			} else {
+				$isUserProfileValidate = false;
+			}
+
+			if ($isUserValidate && $isUserProfileValidate) {
+
+				$this->request->data['User']['type'] = 'Lawyer';
+				$this->request->data['User']['user_type'] = 4;
+				$this->request->data['User']['parent_id'] = $this->Session->read("UserInfo.lawyer_id");
+				$this->request->data['User']['created_by'] = $this->Session->read("UserInfo.uid");
+				if ($this->User->save($this->request->data)) {
+					$lastInsertedId = $this->User->getLastInsertId();
+					$this->request->data['Profile']['user_id'] = $lastInsertedId;
+					$this->request->data['Profile']['first_name'] = $this->request->data['User']['first_name'];
+					$this->request->data['Profile']['last_name'] = $this->request->data['User']['last_name'];
+					$this->request->data['Profile']['email'] = $this->request->data['User']['email'];
+
+					try{
+						$this->Profile->save($this->request->data);
+					} catch (Exception $e) {
+						//TODO throw $e;
+					}
+
+					$this->loadModel('UserModule');
+					$userModuleModel = new UserModule();
+					$this->request->data['UserModule']['user_id'] = $lastInsertedId;
+					$userModuleModel->saveUserData($this->request->data);
+
+
+					$userModel = new User();
+					$listClients = $userModel->listActiveClients($this->Session->read("UserInfo.uid"));
+
+					$result = array('status' => 'success', 'message' => CLIENT_ADDED, 'clients' => $listClients);
+				}
+			} else {
+				$userTblValidationErrors = $this->User->validationErrors;
+				$userProfileTblValidationErrors = $this->Profile->validationErrors;
+				$formErrors = array_merge($userTblValidationErrors, $userProfileTblValidationErrors);
+
+				$result = array('status' => 'error', 'message' => $formErrors);
+			}
+		}
+
+		echo json_encode($result); exit;
 	}
 }

@@ -143,7 +143,8 @@
 									<div class="col-sm-12 col-xs-12">
 										<label class="col-sm-4 col-xs-12 control-label no-padding-right" for="form-field-email">Select Client: </label>
 										<div class="col-sm-8">
-											<?php echo $this->Form->input('ClientCase.client_id', array('options' => $listClients, 'empty' => '', 'label' => false, 'div' => false, 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Client', 'class' => 'select2')); ?>
+											<?php echo $this->Form->input('ClientCase.client_id', array('options' => $listClients, 'empty' => '--Select--', 'label' => false, 'div' => false, 'autocomplete' => 'off', 'data-placeholder' => 'Choose a Client', 'class' => 'select2 col-sm-12')); ?>
+											<?php echo $this->Html->link('Add Client', "javascript:void(0)", array('escape' => false, 'data-toggle' => 'modal', 'data-target' => '#myModal')); ?>
 										</div>
 									</div>
 								</div>
@@ -326,11 +327,15 @@
     </div>
     <!-- /.row -->
 </div><!-- /.page-content -->
+<div id="add_quick_client">
+	<?php echo $this->element('Users/add_quick_client');?>
+</div>
 <!-- page specific plugin scripts -->
 
 <script type="text/javascript">
 
 	$(document).ready(function(){
+
 		$('.select2').css('width','100%').select2();
 
 		$('#ClientCaseClientId').on('change', function(){
@@ -348,6 +353,39 @@
 					}
 				});
 			}
+		});
+
+		$('#saveQuickClient').on('click', function(){
+			$.ajax({
+				url: $('#addQuickClient').attr('action'),
+				type:"POST",
+				data: $('#addQuickClient').serialize(),
+				dataType:'json',
+				success: function(data) {
+					$('.addQuickClientError').hide();
+					if(data.status=='error') {
+
+						$.each(data.message, function (i, v) {
+
+							if($('#error_'+i).length > 0) {
+
+								$('#error_'+i).html(v);
+								$('#error_'+i).show();
+							}
+                        });
+					} else if(data.status=='success') {
+
+                        var $el = $("#ClientCaseClientId");
+                        $el.empty(); // remove old options
+                        $.each(data.clients, function(key,value) {
+                          $el.append($("<option></option>")
+                             .attr("value", key).text(value));
+                        });
+
+						$('#myModal').modal('hide');
+					}
+				}
+			});
 		});
 	});
 </script>

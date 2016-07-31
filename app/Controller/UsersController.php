@@ -467,4 +467,11 @@ class UsersController extends AppController
 	{
 		echo '<pre>'; print_r($_REQUEST); die;
 	}
+
+	public function addQuickClient()
+	{
+		$this->layout = 'ajax';
+
+
+	}
 }
